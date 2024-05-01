@@ -1,0 +1,1 @@
+A questionnaire android application created using Jetpack Compose and Native Kotlin. This project is a prototype android compose page that will be implemented upon a larger project that is related to my final project thesis.
