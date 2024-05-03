@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,7 +26,9 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
@@ -41,13 +47,48 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    Frame98Preview()
+                    Frame211Preview()
                 }
             }
         }
     }
 }
 
+//apa itu diabetes self management questionnaire
+@Composable
+fun Frame98(modifier: Modifier = Modifier){
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .requiredWidth(width = 360.dp)
+            .requiredHeight(height = 52.dp)
+            .background(color = Color(0xff5799fc))
+            .padding(
+                start = 16.dp,
+                end = 62.dp,
+                top = 16.dp,
+                bottom = 16.dp
+            )
+    ) {
+Icon(imageVector = Icons.Default.ArrowBack,
+     contentDescription = "back arrow",
+     modifier = Modifier.requiredSize(size = 20.dp))
+Text(text = "Diabetes Self-Management Questionnaire",
+     color = Color.White,
+    style = TextStyle(
+        fontSize = 15.sp,
+        fontWeight = FontWeight.Bold))
+    }
+}
+
+//preview
+@Preview(widthDp = 360, heightDp = 52)
+@Composable
+private fun Frame98Preview(){
+    Frame98(Modifier)
+
+}
 
 @Composable
 fun Frame211(modifier: Modifier = Modifier){
@@ -86,7 +127,5 @@ fun Property1Primary(modifier: Modifier = Modifier) {
 private fun Frame211Preview(){
     Frame211(Modifier)
 }
-
-
 
 
