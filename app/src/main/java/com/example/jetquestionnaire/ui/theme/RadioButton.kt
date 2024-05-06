@@ -20,12 +20,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun RadioButtonTest(){
     val options = listOf("3", "2", "1", "0")
     var selectedOption by remember { mutableStateOf(options[0]) }
+    val textAboveRadioButtons = listOf(
+        "High",
+        "Medium-High",
+        "Medium-Low",
+        "Low")
     //custom colour
     val customSelectedColor = Color(0xFF5799FC)
     Row(
@@ -35,8 +41,11 @@ fun RadioButtonTest(){
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        options.forEach { option ->
-            //modify the column
+        //ensure both lists are the same number of elements
+        require(options.size == textAboveRadioButtons.size) {
+            "Mismatch in the number of elements between 'options' and 'textAboveRadioButtons'."
+        }
+        options.zip(textAboveRadioButtons).forEach { (option, textAbove) ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -45,7 +54,15 @@ fun RadioButtonTest(){
                         onClick = { selectedOption = option })
                     .padding(30.dp),
             ) {
-               androidx.compose.material3.RadioButton(
+                //text above radio button, and adding wrapping
+                Text(text = textAbove,
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(8.dp))
+                //the radio button itself
+                androidx.compose.material3.RadioButton(
                    selected = selectedOption == option,
                    onClick = null,
                    colors = RadioButtonDefaults.colors(
@@ -57,5 +74,4 @@ fun RadioButtonTest(){
             }
         }
     }
-
 }
