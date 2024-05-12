@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,25 +51,24 @@ fun RadioButtonTest(){
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .selectable(
-                        selected = selectedOption == option,
-                        onClick = { selectedOption = option })
-                    .padding(30.dp),
+                        selected = (selectedOption == option),
+                        onClick = { selectedOption = option }
+                    )
+                    .padding(8.dp),
             ) {
-                //text above radio button, and adding wrapping
-                Text(text = textAbove,
-                    modifier = Modifier
-                        .padding(bottom = 10.dp)
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.height(8.dp))
-                //the radio button itself
-                androidx.compose.material3.RadioButton(
-                   selected = selectedOption == option,
-                   onClick = null,
-                   colors = RadioButtonDefaults.colors(
-                       selectedColor = customSelectedColor,
-                       unselectedColor = Color.Black)
-               )
+
+                Text(
+                    text = textAbove,
+                    modifier = Modifier.padding(bottom = 10.dp)
+                )
+                RadioButton(
+                    selected = (selectedOption == option),
+                    onClick = { selectedOption = option },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = customSelectedColor,
+                        unselectedColor = Color.Gray
+                    )
+                )
                 Text(text = option,
                     modifier = Modifier.padding(top = 10.dp))
             }
