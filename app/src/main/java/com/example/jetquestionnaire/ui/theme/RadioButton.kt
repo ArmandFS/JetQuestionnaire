@@ -54,7 +54,8 @@ fun RadioButtonTest(){
                         selected = (selectedOption == option),
                         onClick = { selectedOption = option }
                     )
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .weight(1f),
             ) {
 
                 Text(
