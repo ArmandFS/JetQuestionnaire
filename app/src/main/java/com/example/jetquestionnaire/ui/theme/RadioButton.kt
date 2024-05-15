@@ -19,20 +19,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun RadioButtonTest(){
     val options = listOf("3", "2", "1", "0")
     var selectedOption by remember { mutableStateOf(options[0]) }
     val textAboveRadioButtons = listOf(
-        "High",
-        "Medium-High",
-        "Medium-Low",
-        "Low")
+        "Really Long Text for Testing",
+        "Really Long Text for Testing",
+        "Really Long Text for Testing",
+        "Really Long Text for Testing")
     //custom colour
     val customSelectedColor = Color(0xFF5799FC)
     Row(
@@ -42,10 +44,6 @@ fun RadioButtonTest(){
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        //ensure both lists are the same number of elements
-        require(options.size == textAboveRadioButtons.size) {
-            "Mismatch in the number of elements between 'options' and 'textAboveRadioButtons'."
-        }
         options.zip(textAboveRadioButtons).forEach { (option, textAbove) ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,12 +53,16 @@ fun RadioButtonTest(){
                         onClick = { selectedOption = option }
                     )
                     .padding(8.dp)
-                    .weight(1f),
+                    .weight(1f) ,
             ) {
-
+                //above text
                 Text(
                     text = textAbove,
-                    modifier = Modifier.padding(bottom = 10.dp)
+                    modifier = Modifier
+                        .padding(bottom = 5.dp)
+                        .fillMaxWidth(),
+                    fontSize = 13.sp,
+                    textAlign = TextAlign.Center
                 )
                 RadioButton(
                     selected = (selectedOption == option),
@@ -71,7 +73,9 @@ fun RadioButtonTest(){
                     )
                 )
                 Text(text = option,
-                    modifier = Modifier.padding(top = 10.dp))
+                    modifier = Modifier.padding(top = 5.dp),
+                    fontSize = 13.sp)
+
             }
         }
     }
