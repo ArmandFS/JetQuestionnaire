@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,16 +32,16 @@ fun RadioButtonTest(){
     val options = listOf("3", "2", "1", "0")
     var selectedOption by remember { mutableStateOf(options[0]) }
     val textAboveRadioButtons = listOf(
-        "Really Long Text for Testing",
-        "Really Long Text for Testing",
-        "Really Long Text for Testing",
-        "Really Long Text for Testing")
+        "Sangat berlaku bagi saya",
+        "Berlaku bagi saya ",
+        "Sedikit berlaku bagi saya",
+        "Tidak berlaku bagi saya")
     //custom colour
     val customSelectedColor = Color(0xFF5799FC)
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -58,10 +59,12 @@ fun RadioButtonTest(){
                 //above text
                 Text(
                     text = textAbove,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .padding(bottom = 5.dp)
-                        .fillMaxWidth(),
-                    fontSize = 13.sp,
+                        .padding(bottom = 8.dp)
+                        .fillMaxWidth()
+                        .height(68.dp),
+                    fontSize = 12.sp,
                     textAlign = TextAlign.Center
                 )
                 RadioButton(
@@ -69,10 +72,11 @@ fun RadioButtonTest(){
                     onClick = { selectedOption = option },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = customSelectedColor,
-                        unselectedColor = Color.Gray
+                        unselectedColor = Color.Black
                     )
                 )
                 Text(text = option,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 5.dp),
                     fontSize = 13.sp)
 
