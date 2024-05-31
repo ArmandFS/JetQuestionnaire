@@ -48,38 +48,19 @@ import android.app.DatePickerDialog
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material.icons.extended.R
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.intl.Locale
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EnterDate (modifier: Modifier = Modifier){
-    Surface(color = Color.White,
-        modifier = modifier
-                   .fillMaxWidth()){
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-        ) {
-            Text(text = "Input Tanggal Pengisian DSMQ",
-                textAlign = TextAlign.Center,
-                modifier = modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            val datePickerState = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
-            DatePicker(state = datePickerState)
-        }
-    }
-}
-
-//2nd alternative date picker
+//datepicker
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomInputField(
@@ -91,27 +72,35 @@ fun CustomInputField(
     onValueChange: (String) -> Unit,
     onClick: () -> Unit
 ) {
-    TextField(
-        value = valueState,
-        onValueChange = onValueChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onClick() },
-        placeholder = { Text(text = placeholder) },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = keyboardType,
-            imeAction = imeAction
-        ),
-        trailingIcon = trailingIcon,
-        singleLine = true
-    )
+
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp)
+        .clickable { onClick() }) {
+
+        TextField(
+            value = valueState,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .clickable { onClick() },
+            placeholder = { Text(text = placeholder) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            trailingIcon = trailingIcon,
+            singleLine = true
+        )
+    }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EnterDate2(){
-    val mCalendar = Calendar.getInstance()
+fun EnterDate(){
+    val mCalendar = java.util.Calendar.getInstance()
     mCalendar.time = Date()
     var tanggalDsmq by rememberSaveable() {mutableStateOf("")}
     val isValidInputs by remember { derivedStateOf { tanggalDsmq.isNotEmpty() }}
@@ -121,7 +110,10 @@ fun EnterDate2(){
         LocalContext.current,
         { _, year, month, dayOfMonth ->
             tanggalDsmq = "$dayOfMonth/${month + 1}/$year"
-        }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)
+        },
+        mCalendar.get(java.util.Calendar.YEAR),
+        mCalendar.get(java.util.Calendar.MONTH),
+        mCalendar.get(java.util.Calendar.DAY_OF_MONTH)
     )
 
     //ui elements for date
@@ -130,17 +122,28 @@ fun EnterDate2(){
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(text = "Isi Tanggal DSMQ",
+        Text(text = "Isi Tanggal Pengisian DSMQ",
              modifier = Modifier
                  .fillMaxWidth()
                  .padding(bottom = 4.dp, top = 16.dp),
-              style = MaterialTheme.typography.caption,
-
-
-
+              style = MaterialTheme.typography.bodyMedium,
+              fontWeight = FontWeight.Bold,
+              textAlign = TextAlign.Start,
+              color = Color.Black
             )
+        CustomInputField(
+            valueState = tanggalDsmq,
+            placeholder = "Isi Tanggal Pengisian",
+            trailingIcon = { null},
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next,
+            onValueChange = {
+                tanggalDsmq = it
+            },
 
+            onClick = {
+                datePickerDialog.show()
+            }
+        )
     }
-
-
 }
