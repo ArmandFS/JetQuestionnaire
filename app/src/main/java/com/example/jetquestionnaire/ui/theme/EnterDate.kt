@@ -1,63 +1,42 @@
 package com.example.jetquestionnaire.ui.theme
 
 
-import android.content.Context
-import android.icu.util.Calendar
-import android.widget.DatePicker
+import android.app.DatePickerDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.app.DatePickerDialog
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
-import androidx.compose.material.icons.extended.R
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.intl.Locale
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.jetquestionnaire.R
+import java.util.Date
 
 
 //datepicker
@@ -72,27 +51,32 @@ fun CustomInputField(
     onValueChange: (String) -> Unit,
     onClick: () -> Unit
 ) {
-
     Box(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)
         .clickable { onClick() }) {
-
-        TextField(
-            value = valueState,
-            onValueChange = onValueChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .clickable { onClick() },
-            placeholder = { Text(text = placeholder) },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
-            trailingIcon = trailingIcon,
-            singleLine = true
-        )
+        Card(
+            shape = MaterialTheme.shapes.medium,
+            elevation = CardDefaults.cardElevation(2.dp),
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+        ) {
+            TextField(
+                value = valueState,
+                onValueChange = onValueChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clickable { onClick() },
+                placeholder = { Text(text = placeholder) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = keyboardType,
+                    imeAction = imeAction
+                ),
+                trailingIcon = trailingIcon,
+                singleLine = true
+            )
+        }
     }
 }
 
@@ -122,28 +106,39 @@ fun EnterDate(){
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(text = "Isi Tanggal Pengisian DSMQ",
-             modifier = Modifier
-                 .fillMaxWidth()
-                 .padding(bottom = 4.dp, top = 16.dp),
-              style = MaterialTheme.typography.bodyMedium,
-              fontWeight = FontWeight.Bold,
-              textAlign = TextAlign.Start,
-              color = Color.Black
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Input Tanggal Pengisian DSMQ",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 2.dp, top = 16.dp),
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 17.sp,
+                textAlign = TextAlign.Center,
+                color = Color.Black
             )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         CustomInputField(
-            valueState = tanggalDsmq,
-            placeholder = "Isi Tanggal Pengisian",
-            trailingIcon = { null},
-            keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Next,
-            onValueChange = {
-                tanggalDsmq = it
-            },
+                valueState = tanggalDsmq,
+                placeholder = "Isi Tanggal Pengisian",
+                //calendar icon
+                trailingIcon = {
+                         IconButton(onClick = { datePickerDialog.show() }) {
+                             Icon(contentDescription ="calendar icon", painter = painterResource(id = R.drawable.calendar) )
+                         }
+                },
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next,
+                onValueChange = {
+                    tanggalDsmq = it
+                },
 
-            onClick = {
-                datePickerDialog.show()
-            }
-        )
+                onClick = {
+                    datePickerDialog.show()
+                }
+            )
     }
 }
